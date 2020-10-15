@@ -5,15 +5,39 @@
 -- countrycode is 'USA', and population of 45001. (Yes, I looked it up on 
 -- Wikipedia.)
 
+INSERT INTO city(name, countrycode, district, population)
+VALUES ('Smallville','USA','Kansas',45001)
+
 -- 2. Add Kryptonese to the countrylanguage table. Kryptonese is spoken by 0.0001
 -- percentage of the 'USA' population.
+
+INSERT INTO countrylanguage(countrycode, language, isofficial, percentage)
+VALUES ('USA', 'Kryptonese', 0, .0001)
 
 -- 3. After heated debate, "Kryptonese" was renamed to "Krypto-babble", change 
 -- the appropriate record accordingly.
 
+UPDATE countrylanguage
+SET language = 'Krypto-babble'
+WHERE language = 'Kryptonese'
+
+select *
+from countrylanguage
+
 -- 4. Set the US captial to Smallville, Kansas in the country table.
 
+UPDATE country
+SET capital = (select id from city WHERE name = 'Smallville')
+WHERE CODE = 'USA'
+
 -- 5. Delete Smallville, Kansas from the city table. (Did it succeed? Why?)
+
+DELETE
+--SELECT *
+FROM city
+WHERE id= (select id from city WHERE name = 'Smallville')
+
+--*******IT FAILED, WE ENCOUNTERED A CONSTRAINT WHEN TRYING TO DELETE IT BECAUSE ITS SET TO THE CAPITAL IT CANT BE DELETED.
 
 -- 6. Return the US captial to Washington.
 
